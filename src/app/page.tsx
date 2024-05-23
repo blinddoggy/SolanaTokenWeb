@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Layout from './layout';
-import { sendSPLToken, SendSPLTokenParams, getBalance } from '../services/apiService';
+import { sendSPLToken, SendSPLTokenParams, getBalance, getSolanaBalance } from '../services/apiService';
 
 const HomePage: React.FC = () => {
   const [formData, setFormData] = useState<SendSPLTokenParams>({
@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
     setError(null);
     setBalance(null);
     try {
-      const result = await getBalance(publicKey1, publicKey2);
+      const result = await getSolanaBalance(publicKey1);
       setBalance(JSON.stringify(result, null, 2));
     } catch (error: any) {
       setError(error.message);

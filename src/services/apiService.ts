@@ -59,3 +59,56 @@ export interface SendSPLTokenParams {
       throw error;
     }
   };
+
+
+  export const getSolanaBalance = async (publicKey1: string) => {
+    try {
+      const response = await fetch(`/api/solana/get-solana-balance/${publicKey1}`);
+  
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        throw new Error(`Unexpected content type: ${text}`);
+      }
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.status} - ${errorText}`);
+      }
+  
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
+
+  export const sendSolanaToken = async (params: SendSPLTokenParams) => {
+    try {
+      const response = await fetch('/api/solana/send-sol', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+  
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        throw new Error(`Unexpected content type: ${text}`);
+      }
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.status} - ${errorText}`);
+      }
+  
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
